@@ -5,5 +5,7 @@
 
 extern char FSR[];
 
+void andwf(Bytecode *code);
+
 
 #endif	// __BYTE_ORIENTEDOPERATIONS_H__

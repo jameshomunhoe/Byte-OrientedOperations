@@ -1,16 +1,22 @@
 #ifndef	__BYTECODE_H__
 #define	__BYTECODE_H__
 
+#define WREG	0xfe8
+#define BSR		0xfe0
+
+char FSR[0x1000];
+extern char FSR[];
+
+
 typedef enum 	{
 					ANDWF,
-					CPFSGT,
-					DCFSNZ,
-					IORWF,
-					MULWF,
-					RRCF,
 					SUBWF,
 					XORWF,
-					
+					IORWF,
+					MULWF,
+					CPFSGT,
+					DCFSNZ,
+					RRCF,	
 				} Mnemonic;
 				
 typedef struct {

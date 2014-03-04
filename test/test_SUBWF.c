@@ -1,16 +1,15 @@
 #include "unity.h"
 #include "Bytecode.h"
-#include "ANDWF.h"
+#include "SUBWF.h"
 
 void setUp() {}
 void tearDown() {}
 
-
-void test_andwf_should_print_invalid_file_register_address(){
+void test_subwf_should_print_invalid_file_register_address(){
 
 	Instruction instruction = {
-								.mnemonic = ANDWF,
-								.name = "andwf"
+								.mnemonic = SUBWF,
+								.name = "subwf"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -19,14 +18,14 @@ void test_andwf_should_print_invalid_file_register_address(){
 					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
 					 };
 					 
-	andwf(&code);
+	subwf(&code);
 }
 
-void test_andwf_should_save_answer_in_WREG(){
+void test_subwf_should_save_answer_in_WREG(){
 
 	Instruction instruction = {
-								.mnemonic = ANDWF,
-								.name = "andwf"
+								.mnemonic = SUBWF,
+								.name = "subwf"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -39,30 +38,30 @@ void test_andwf_should_save_answer_in_WREG(){
 	FSR[code.operand1] = 0x08;
 	FSR[WREG] = 0x07;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
 	FSR[WREG] = 0x07;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[WREG]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
 	FSR[WREG] = 0x0a;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[WREG]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[WREG]);
 	
 }
 
-void test_andwf_should_save_answer_in_fileregister(){
+void test_subwf_should_save_answer_in_fileregister(){
 
 	Instruction instruction = {
-								.mnemonic = ANDWF,
-								.name = "andwf"
+								.mnemonic = SUBWF,
+								.name = "subwf"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -75,30 +74,30 @@ void test_andwf_should_save_answer_in_fileregister(){
 	FSR[code.operand1] = 0x08;
 	FSR[WREG] = 0x07;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
 	FSR[WREG] = 0x07;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0x50]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
 	FSR[WREG] = 0x0a;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[0x50]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
 	
 }
 
-void test_andwf_should_save_answer_with_bsr(){
+void test_subwf_should_save_answer_in_with_bsr(){
 
 	Instruction instruction = {
-								.mnemonic = ANDWF,
-								.name = "andwf"
+								.mnemonic = SUBWF,
+								.name = "subwf"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -112,21 +111,21 @@ void test_andwf_should_save_answer_with_bsr(){
 	FSR[WREG] = 0x07;
 	FSR[BSR] = 0x02;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x250]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
 	FSR[WREG] = 0x07;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0x250]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x250]);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
 	FSR[WREG] = 0x0a;
 	
-	andwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[0x250]);
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x250]);
 	
 }

@@ -9,8 +9,8 @@ extern char FSR[];
 
 
 typedef enum 	{
-					ANDWF,
-					SUBWF,
+					ANDWF, //completed
+					SUBWF, //completed	
 					XORWF,
 					IORWF,
 					MULWF,

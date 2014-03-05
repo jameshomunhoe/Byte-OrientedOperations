@@ -3,20 +3,22 @@
 
 #define WREG	0xfe8
 #define BSR		0xfe0
+#define PRODH	0xff4
+#define PRODL	0xff3
 
-char FSR[0x1000];
-extern char FSR[];
+unsigned char FSR[0x1000];
+unsigned extern char FSR[];
 
 
 typedef enum 	{
 					ANDWF, //completed
 					SUBWF, //completed	
-					XORWF,
-					IORWF,
-					MULWF,
-					CPFSGT,
-					DCFSNZ,
-					RRCF,	
+					MULWF, //completed
+					CPFSGT, //temporary stuck
+					XORWF, //kenmun do
+					IORWF, //kenmun do
+					DCFSNZ, //kenmun do
+					RRCF,	//kenmun do
 				} Mnemonic;
 				
 typedef struct {

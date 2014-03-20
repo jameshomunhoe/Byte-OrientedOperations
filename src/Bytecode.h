@@ -11,16 +11,29 @@ unsigned extern char FSR[];
 
 
 typedef enum 	{
-					ANDWF, //completed
-					SUBWF, //completed	
-					MULWF, //completed
+					ANDWF, //completed, status affected Z,N
+					SUBWF, //completed	status affected C,DC,Z,OV,N
+					MULWF, //completed  status affected none
 					CPFSGT, //temporary stuck
+					IORLW,
+					BNC,
+					BOV,
+					RETURN,
+					//TBLRD*,
+					//TBLRD+,
 					XORWF, //kenmun do
 					IORWF, //kenmun do
 					DCFSNZ, //kenmun do
 					RRCF,	//kenmun do
+					MULLW,
+					BTG,
+					DAW,
+					RCALL,
+					POP,
+					//TBLRD*+,
 				} Mnemonic;
-				
+
+
 typedef struct {
 	Mnemonic	mnemonic;
 	char *name;

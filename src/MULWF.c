@@ -13,6 +13,9 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 			tempForAnswer = FSR[code->operand1+(FSR[BSR]<<8)]*FSR[WREG];
 		}
 		else{
+			if(code->operand1 >=0x80)
+			tempForAnswer = FSR[code->operand1+((0xf)<<8)]*FSR[WREG];
+			else
 			tempForAnswer = FSR[code->operand1]*FSR[WREG];
 		}
 		}

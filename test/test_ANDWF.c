@@ -134,6 +134,42 @@ void test_andwf_should_save_answer_in_fileregister(){
 	
 }
 
+void test_andwf_should_save_answer_in_fileregister_more_than_0x80(){
+
+	Instruction instruction = {
+								.mnemonic = ANDWF,
+								.name = "andwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0x80 ,		//random file register AND instruction
+					  .operand2 = 1 ,		//0 = WREG, 1 = file
+					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					 };
+		
+	//Test with first set of value
+	FSR[0xf80] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0xf80]);
+	
+	//Test with second set of value
+	FSR[0xf80] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0xf80]);
+	
+	//Test with third set of value
+	FSR[0xf80] = 0x0f;
+	FSR[WREG] = 0x0a;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[0xf80]);
+	
+}
+
 void test_andwf_should_save_answer_in_fileregister_with_bsr(){
 
 	Instruction instruction = {

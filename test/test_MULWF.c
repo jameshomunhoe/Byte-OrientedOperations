@@ -29,7 +29,7 @@ void test_mulwf_should_multiply_fileregister(){
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
-					  .operand1 = 0xff ,	//random file register for MUL instruction
+					  .operand1 = 0x50 ,	//random file register for MUL instruction
 					  .operand2 = 0 ,		//-1/0 = bsr ignore, 1 = bank with bsr
 					  .operand3 = -1			
 					 };
@@ -55,6 +55,48 @@ void test_mulwf_should_multiply_fileregister(){
 	//Test with third set of value
 	FSR[BSR] = 0x04;
 	FSR[code.operand1] = 0xff;
+	FSR[WREG] = 0x0a;
+	
+	mulwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
+	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
+	
+}
+
+void test_mulwf_should_multiply_fileregister_more_than_0x80(){
+
+	Instruction instruction = {
+								.mnemonic = MULWF,
+								.name = "mulwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,	//random file register for MUL instruction
+					  .operand2 = 0 ,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = -1			
+					 };
+		
+	//Test with first set of value
+	FSR[BSR] = 0x02;
+	FSR[0xfff] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	mulwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
+	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
+	
+	//Test with second set of value
+	FSR[BSR] = 0x03;
+	FSR[0xfff] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	mulwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
+	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	
+	//Test with third set of value
+	FSR[BSR] = 0x04;
+	FSR[0xfff] = 0xff;
 	FSR[WREG] = 0x0a;
 	
 	mulwf(&code);

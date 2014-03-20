@@ -133,6 +133,42 @@ void test_subwf_should_save_answer_in_fileregister(){
 	
 }
 
+void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
+
+	Instruction instruction = {
+								.mnemonic = SUBWF,
+								.name = "subwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0xff ,		//random file register for SUB instruction
+					  .operand2 = 1 ,		//0 = WREG, 1 = file
+					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					 };
+		
+	//Test with first set of value
+	FSR[0xfff] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0xfff]);
+	
+	//Test with second set of value
+	FSR[0xfff] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0xfff]);
+	
+	//Test with third set of value
+	FSR[0xfff] = 0x0f;
+	FSR[WREG] = 0x0a;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0xfff]);
+	
+}
+
 void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 
 	Instruction instruction = {

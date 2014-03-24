@@ -5,12 +5,13 @@
 #define BSR		0xfe0
 #define PRODH	0xff4
 #define PRODL	0xff3
+#define STATUS	0xfd8
 
 unsigned char FSR[0x1000];
 unsigned extern char FSR[];
 
-typedef enum 	{
-					INVALID_OP1 = 1,
+typedef enum 	{	INVALID_INPUT,
+					INVALID_OP1,
 					INVALID_OP2,
 					INVALID_OP3
 				} ErrorMessage;

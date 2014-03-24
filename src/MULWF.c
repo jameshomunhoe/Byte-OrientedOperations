@@ -20,10 +20,10 @@ if(code->operand3 == -1){
 
 	if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 
-		if(code->operand2==BANKED){
+		if(code->operand2==BANKED || code->operand2==1){
 			tempForAnswer = FSR[code->operand1+(FSR[BSR]<<8)]*FSR[WREG];
 		}
-		else if(code->operand2==ACCESS || code->operand2==-1){
+		else if(code->operand2==ACCESS || code->operand2==-1 || code->operand2==0){
 			if(code->operand1 >=0x80)
 			tempForAnswer = FSR[code->operand1+((0xf)<<8)]*FSR[WREG];
 			else

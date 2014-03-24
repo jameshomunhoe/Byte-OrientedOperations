@@ -38,3 +38,8 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 else
 	printf("Invalid operand1. File register must less than 0x100 and at least 0x00\n");
 }
+
+		
+		
+		
+		

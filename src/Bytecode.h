@@ -9,11 +9,24 @@
 unsigned char FSR[0x1000];
 unsigned extern char FSR[];
 
+typedef enum 	{
+					INVALID_OP1 = 1,
+					INVALID_OP2,
+					INVALID_OP3
+				} ErrorMessage;
+				
+				
+typedef enum 	{
+					ACCESS = -5,
+					BANKED,
+					F,
+					W
+				} OperandInput;
 
 typedef enum 	{
 					ANDWF, //completed, status affected Z,N
 					SUBWF, //completed	status affected C,DC,Z,OV,N
-					MULWF, //completed  status affected none
+					MULWF, //final,	status affected none
 					CPFSGT, //temporary stuck
 					IORLW,
 					BNC,

@@ -1,11 +1,12 @@
 #include "unity.h"
 #include "Bytecode.h"
 #include "MULWF.h"
+#include "CException.h"
 
 void setUp() {}
 void tearDown() {}
 
-void test_mulwf_should_print_invalid_file_register_address(){
+void test_mulwf_should_throw_invalid_operand1(){
 
 	Instruction instruction = {
 								.mnemonic = MULWF,
@@ -13,13 +14,64 @@ void test_mulwf_should_print_invalid_file_register_address(){
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
-					  .operand1 = 0xffff ,	//random file register for MUL instruction
-					  .operand2 = 0 ,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand1 = 0xffff ,	//invalid value
+					  .operand2 = ACCESS,		
 					  .operand3 = -1			
 					 };
-					 
-	mulwf(&code);
+
+	int Exception;
+	
+	Try{		 
+	mulwf(&code);}
+	Catch(Exception){
+	TEST_ASSERT_EQUAL(INVALID_OP1,Exception);
+	;}
 }
+
+void test_mulwf_should_throw_invalid_operand2(){
+
+	Instruction instruction = {
+								.mnemonic = MULWF,
+								.name = "mulwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,
+					  .operand2 = W,	// invalid value, should be ACCESS or BANKED		
+					  .operand3 = -1			
+					 };
+
+	int Exception;
+	
+	Try{		 
+	mulwf(&code);}
+	Catch(Exception){
+	TEST_ASSERT_EQUAL(INVALID_OP2,Exception);
+	;}
+}
+
+void test_mulwf_should_throw_invalid_operand3(){
+
+	Instruction instruction = {
+								.mnemonic = MULWF,
+								.name = "mulwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,
+					  .operand2 = BANKED,
+					  .operand3 = 0		// invalid value, should be empty (-1)	
+					 };
+
+	int Exception;
+	
+	Try{		 
+	mulwf(&code);}
+	Catch(Exception){
+	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);
+	;}
+}
+
 
 void test_mulwf_should_multiply_fileregister(){
 
@@ -30,7 +82,7 @@ void test_mulwf_should_multiply_fileregister(){
 	
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0x50 ,	//random file register for MUL instruction
-					  .operand2 = 0 ,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand2 = ACCESS ,		
 					  .operand3 = -1			
 					 };
 		
@@ -72,7 +124,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0xff ,	//random file register for MUL instruction
-					  .operand2 = 0 ,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand2 = ACCESS ,
 					  .operand3 = -1			
 					 };
 		
@@ -114,7 +166,7 @@ void test_mulwf_should_multiply_fileregister_with_bsr(){
 	
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0xff ,	//random file register for MUL instruction
-					  .operand2 = 1 ,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand2 = BANKED ,
 					  .operand3 = -1			
 					 };
 		

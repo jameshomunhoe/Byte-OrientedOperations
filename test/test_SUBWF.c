@@ -17,7 +17,7 @@ void test_subwf_should_throw_invalid_operand1(){
 					  .operand1 = 0xffff ,	//random file register for SUB instruction
 					  .operand2 = 0 ,		//0 = WREG, 1 = file
 					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
-					 };
+					};
 					 
 	int Exception;
 	
@@ -72,6 +72,25 @@ void test_subwf_should_throw_invalid_operand3(){
 	}
 }
 
+void test_subwf_should_update_absoluteAddress(){
+
+	Instruction instruction = {
+								.mnemonic = SUBWF,
+								.name = "subwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,	
+					  .operand2 = ACCESS ,		
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
+					 };
+					 	 
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+}
+
 
 void test_subwf_should_save_answer_in_WREG_with_input_0(){
 
@@ -83,8 +102,9 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,			
 					  .operand2 = 0 ,			//0 = WREG, -1/1 = file
-					  .operand3 = ACCESS		//-1/0 = bsr ignore, 1 = bank with bsr
-					 };
+					  .operand3 = ACCESS,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
+					};
 		
 	//Test with first set of value
 	FSR[code.operand1] = 0x08;
@@ -92,6 +112,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -99,6 +120,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -106,6 +128,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -119,7 +142,8 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,			
 					  .operand2 = W ,			//0 = WREG, -1/1 = file
-					  .operand3 = ACCESS		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = ACCESS,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -128,6 +152,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -135,6 +160,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -142,6 +168,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -155,7 +182,8 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = W ,		//0 = WREG, -1/1 = file
-					  .operand3 = 1			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = 1,			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -166,6 +194,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x09;
@@ -174,6 +203,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -182,6 +212,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -195,7 +226,8 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = W ,		//0 = WREG, -1/1 = file
-					  .operand3 = BANKED			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = BANKED,			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -206,6 +238,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x09;
@@ -214,6 +247,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -222,6 +256,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -235,7 +270,8 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = 1 ,		//0 = WREG, -1/1 = file
-					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = 0	,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -244,6 +280,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -251,6 +288,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -258,6 +296,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -271,7 +310,8 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = F ,		//0 = WREG, -1/1 = file
-					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = 0,			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -280,6 +320,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -287,6 +328,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -294,6 +336,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -307,7 +350,8 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0xff ,		
 					  .operand2 = 1 ,		//0 = WREG, 1 = file
-					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = 0	,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -316,6 +360,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0xfff]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[0xfff] = 0x07;
@@ -323,6 +368,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0xfff]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[0xfff] = 0x0f;
@@ -330,6 +376,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0xfff]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -343,7 +390,8 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = F ,		//0 = WREG, 1 = file
-					  .operand3 = BANKED			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = BANKED,			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -355,6 +403,7 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x09;
@@ -363,6 +412,7 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -371,6 +421,7 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[0x250]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -384,7 +435,8 @@ void test_andwf_should_update_status_flag(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 =0x50 ,		
 					  .operand2 = 1 ,		//0 = WREG, -1/1 = file
-					  .operand3 = 0			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .operand3 = 0	,		//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -394,6 +446,7 @@ void test_andwf_should_update_status_flag(){
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -402,6 +455,7 @@ void test_andwf_should_update_status_flag(){
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -409,5 +463,7 @@ void test_andwf_should_update_status_flag(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }

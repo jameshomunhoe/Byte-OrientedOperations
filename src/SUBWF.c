@@ -83,6 +83,8 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 }
 else
 	Throw(INVALID_OP1);
+	
+code->absoluteAddress++;	
 }
 
 //status affected C,DC,Z,OV,N

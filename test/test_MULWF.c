@@ -72,6 +72,25 @@ void test_mulwf_should_throw_invalid_operand3(){
 	;}
 }
 
+void test_mulwf_should_update_absoluteAddress(){
+
+	Instruction instruction = {
+								.mnemonic = MULWF,
+								.name = "mulwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,	
+					  .operand2 = ACCESS ,		
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
+					 };
+					 	 
+	mulwf(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+}
+
 void test_mulwf_should_multiply_fileregister_by_input_0(){
 
 	Instruction instruction = {
@@ -82,7 +101,8 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0x50 ,	//random file register for MUL instruction
 					  .operand2 = 0 ,		
-					  .operand3 = -1			
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -93,6 +113,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -102,6 +123,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -111,6 +133,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -124,7 +147,8 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0x50 ,	//random file register for MUL instruction
 					  .operand2 = ACCESS ,		
-					  .operand3 = -1			
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -135,6 +159,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -144,6 +169,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -153,6 +179,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -166,7 +193,8 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0xff ,	//random file register for MUL instruction
 					  .operand2 = ACCESS ,
-					  .operand3 = -1			
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -177,6 +205,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -186,6 +215,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -195,6 +225,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -208,7 +239,8 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0xff ,	//random file register for MUL instruction
 					  .operand2 = 1 ,
-					  .operand3 = -1			
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -220,6 +252,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -230,6 +263,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x06,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf9,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -240,6 +274,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x60,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }
 
@@ -254,7 +289,8 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	Bytecode code = { .instruction = &instruction,
 					  .operand1 = 0xff ,	//random file register for MUL instruction
 					  .operand2 = BANKED ,
-					  .operand3 = -1			
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
 					 };
 		
 	//Test with first set of value
@@ -266,6 +302,7 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -276,6 +313,7 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x06,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf9,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -286,5 +324,6 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x60,FSR[PRODL]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
 	
 }

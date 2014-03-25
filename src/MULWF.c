@@ -38,6 +38,7 @@ if(code->operand3 == -1){
 else
 	Throw(INVALID_OP3);
 	
+	code->absoluteAddress++;
 	FSR[PRODH] = (tempForAnswer&0xff00)>>8;
 	FSR[PRODL] = (tempForAnswer&0x00ff);
 }

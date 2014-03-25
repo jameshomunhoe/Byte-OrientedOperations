@@ -82,7 +82,7 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 				updateFlag(bankedValue);
 			else if(code->operand2 == -1 || code->operand2==1 || (code->operand2 == ACCESS&&code->operand3 == -1) )
 				updateFlag(accessValue);
-		}
+			}
 		else
 			Throw(INVALID_OP3);
 	}
@@ -91,6 +91,8 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 }
 else
 	Throw(INVALID_OP1);
+
+code->absoluteAddress++;
 }
 
 void updateFlag (int value){

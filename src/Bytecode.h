@@ -27,8 +27,8 @@ typedef enum 	{
 typedef enum 	{
 					ANDWF, //completed, status affected Z,N
 					SUBWF, //completed	status affected C,DC,Z,OV,N
-					MULWF, //final,	status affected none
-					CPFSGT, //temporary stuck
+					MULWF, //completed,	status affected none
+					CPFSGT,//completed 	status affected none
 					IORLW,
 					BNC,
 					BOV,

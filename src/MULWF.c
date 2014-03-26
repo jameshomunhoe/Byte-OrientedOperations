@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "Bytecode.h"
 #include "MULWF.h"
-#include <math.h>
 #include "CException.h"
 
 

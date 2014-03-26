@@ -24,8 +24,7 @@ void test_mulwf_should_throw_invalid_operand1(){
 	Try{		 
 	mulwf(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL(INVALID_OP1,Exception);
-	;}
+	TEST_ASSERT_EQUAL(INVALID_OP1,Exception);}
 }
 
 void test_mulwf_should_throw_invalid_operand2(){
@@ -46,8 +45,7 @@ void test_mulwf_should_throw_invalid_operand2(){
 	Try{		 
 	mulwf(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL(INVALID_OP2,Exception);
-	;}
+	TEST_ASSERT_EQUAL(INVALID_OP2,Exception);}
 }
 
 void test_mulwf_should_throw_invalid_operand3(){
@@ -68,8 +66,7 @@ void test_mulwf_should_throw_invalid_operand3(){
 	Try{		 
 	mulwf(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);
-	;}
+	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);}
 }
 
 void test_mulwf_should_update_absoluteAddress(){

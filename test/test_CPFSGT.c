@@ -188,6 +188,30 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_BANKED()
 	
 }
 
+void test_cpfsgt_should_not_skip_absoluteAddress_with_file_larger_with_default(){
+
+	Instruction instruction = {
+								.mnemonic = CPFSGT,
+								.name = "cpfsgt"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0x50 ,	
+					  .operand2 = -1,		
+					  .operand3 = -1,		
+					  .absoluteAddress = 0x100
+					 };
+	FSR[BSR] = 0x02;
+	FSR[0x2ff] = 0x25;			//to make sure it use access
+	FSR[code.operand1] = 0x5;
+	FSR[WREG] = 0x20;
+		
+	cpfsgt(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+}
+
+
 void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_ACCESS(){
 
 	Instruction instruction = {
@@ -250,6 +274,29 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_BANKED(){
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x25;			//to make sure it use access
 	FSR[code.operand1] = 0x5;
+	FSR[WREG] = 0x20;
+		
+	cpfsgt(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	
+}
+
+void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_default(){
+
+	Instruction instruction = {
+								.mnemonic = CPFSGT,
+								.name = "cpfsgt"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0x50 ,	
+					  .operand2 = -1,		
+					  .operand3 = -1,		
+					  .absoluteAddress = 0x100
+					 };
+	FSR[BSR] = 0x02;
+	FSR[0x2ff] = 0x5;			//to make sure it use access
+	FSR[code.operand1] = 0x25;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);

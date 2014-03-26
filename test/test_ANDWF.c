@@ -344,6 +344,46 @@ void test_andwf_should_save_answer_in_fileregister_with_input_F(){
 	
 }
 
+void test_andwf_should_save_answer_in_fileregister_with_default_operand3(){
+
+	Instruction instruction = {
+								.mnemonic = ANDWF,
+								.name = "andwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0x50 ,		
+					  .operand2 = 1 ,		
+					  .operand3 = -1	,
+					  .absoluteAddress = 0x100
+					 };
+		
+	//Test with first set of value
+	FSR[code.operand1] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+	//Test with second set of value
+	FSR[code.operand1] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	
+	//Test with third set of value
+	FSR[code.operand1] = 0x0f;
+	FSR[WREG] = 0x0a;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
+	
+}
+
 void test_andwf_should_save_answer_in_fileregister_more_than_0x80(){
 
 	Instruction instruction = {
@@ -395,6 +435,91 @@ void test_andwf_should_save_answer_in_fileregister_with_bsr(){
 					  .operand1 =0x50 ,		
 					  .operand2 = F ,		
 					  .operand3 = BANKED,
+					  .absoluteAddress = 0x100
+					 };
+		
+	//Test with first set of value
+	FSR[BSR] = 0x02;
+	FSR[code.operand1] = 0xff;
+	FSR[0x250] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x250]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+	//Test with second set of value
+	FSR[BSR] = 0x03;
+	FSR[code.operand1] = 0x09;
+	FSR[0x350] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0x350]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	
+	//Test with third set of value
+	FSR[BSR] = 0x04;
+	FSR[code.operand1] = 0x0f;
+	FSR[0x450] = 0xff;
+	FSR[WREG] = 0x1a;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x1a,FSR[0x450]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
+	
+}
+
+void test_andwf_should_save_answer_in_fileregister_with_ACCESS_in_operand2(){
+
+	Instruction instruction = {
+								.mnemonic = ANDWF,
+								.name = "andwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0x50 ,		
+					  .operand2 = ACCESS ,		
+					  .operand3 = -1	,
+					  .absoluteAddress = 0x100
+					 };
+		
+	//Test with first set of value
+	FSR[code.operand1] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	
+	//Test with second set of value
+	FSR[code.operand1] = 0x07;
+	FSR[WREG] = 0x07;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	
+	//Test with third set of value
+	FSR[code.operand1] = 0x0f;
+	FSR[WREG] = 0x0a;
+	
+	andwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x0a,FSR[0x50]);
+	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
+}
+
+void test_andwf_should_save_answer_in_fileregister_with_BANKED_in_operand2(){
+
+	Instruction instruction = {
+								.mnemonic = ANDWF,
+								.name = "andwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0x50 ,		
+					  .operand2 = BANKED ,		
+					  .operand3 = -1,
 					  .absoluteAddress = 0x100
 					 };
 		

@@ -99,10 +99,10 @@ void updateFlag (int value){
 	FSR[STATUS] = FSR[STATUS] | 0x04;
 	
 	//negative
-	if((valueCheck)>7 == 1)
+	if((valueCheck&0x80)>>7 == 1)
 	FSR[STATUS] = FSR[STATUS] | 0x10;
 	
 	//carry
-	if((valueCheck)>7 == 0)
+	if(valueCheck >= 0 && (valueCheck&0x80)>>7 == 0)
 	FSR[STATUS] = FSR[STATUS] | 0x01;
 }

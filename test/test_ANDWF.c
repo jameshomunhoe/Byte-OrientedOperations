@@ -77,6 +77,28 @@ void test_andwf_should_throw_invalid_operand3(){
 	
 }
 
+void test_andwf_should_not_update_absoluteAddress(){
+
+	Instruction instruction = {
+								.mnemonic = ANDWF,
+								.name = "andwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,	
+					  .operand2 = ACCESS ,		
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
+					 };
+	int Exception;
+	
+	Try{andwf(&code);}
+	Catch(Exception){
+	TEST_ASSERT_EQUAL_HEX16(0x100,code.absoluteAddress);
+	}
+	
+}
+
 void test_andwf_should_update_absoluteAddress(){
 
 	Instruction instruction = {

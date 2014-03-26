@@ -69,6 +69,28 @@ void test_mulwf_should_throw_invalid_operand3(){
 	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);}
 }
 
+void test_mulwf_should_not_update_absoluteAddress(){
+
+	Instruction instruction = {
+								.mnemonic = MULWF,
+								.name = "mulwf"
+							  };
+	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 = 0xff ,	
+					  .operand2 = ACCESS ,		
+					  .operand3 = -1,
+					  .absoluteAddress = 0x100
+					 };
+	int Exception;
+	
+	Try{mulwf(&code);}
+	Catch(Exception){
+	TEST_ASSERT_EQUAL_HEX16(0x100,code.absoluteAddress);
+	}
+	
+}
+
 void test_mulwf_should_update_absoluteAddress(){
 
 	Instruction instruction = {

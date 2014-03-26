@@ -103,6 +103,7 @@ void updateFlag (int value){
 	if(valueCheck == 0)
 	FSR[STATUS] = FSR[STATUS] | 0x04;
 	
-	if((valueCheck)>7 == 1)
+	if((valueCheck&0x80)>>7 == 1)
 	FSR[STATUS] = FSR[STATUS] | 0x10;
+	
 }

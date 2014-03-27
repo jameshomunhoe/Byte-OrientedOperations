@@ -23,7 +23,7 @@ void iorlw(Bytecode *code){
 	else
 		Throw(INVALID_OP3);
 		
-	code->absoluteAddress++;
+	PC++;
 }
 
 void updateFlag (int value){

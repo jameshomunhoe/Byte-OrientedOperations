@@ -83,10 +83,11 @@ void test_iorlw_should_not_update_absoluteAddress(){
 					  .absoluteAddress = 0x100
 					 };
 	int Exception;
+	PC = code.absoluteAddress;
 	
 	Try{iorlw(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL_HEX16(0x100,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
 	}
 	
 }
@@ -105,10 +106,11 @@ void test_iorlw_should_update_absoluteAddress(){
 					  .absoluteAddress = 0x100
 					 };
 	int Exception;
+	PC = code.absoluteAddress;
 	
 	Try{iorlw(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	}
 	
 }
@@ -126,14 +128,16 @@ void test_iorlw_should_do_ior_properly(){
 					  .operand3 = -1,
 					  .absoluteAddress = 0x100
 					 };
-		
+	
+	PC = code.absoluteAddress;
+	
 	//Test with first set of value
 	code.operand1 = 0x08;
 	FSR[WREG] = 0x07;
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 	//Test with second set of value
 	code.operand1 = 0x07;
@@ -141,7 +145,7 @@ void test_iorlw_should_do_ior_properly(){
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with third set of value
 	code.operand1 = 0x1f;
@@ -149,7 +153,7 @@ void test_iorlw_should_do_ior_properly(){
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x1f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
 	
 }
 
@@ -166,14 +170,16 @@ void test_iorlw_should_update_status_flag(){
 					  .operand3 = -1,
 					  .absoluteAddress = 0x100
 					 };
-		
+					 
+	PC = code.absoluteAddress;
+	
 	//Test with first set of value
 	code.operand1 = 0x08;
 	FSR[WREG] = 0x07;
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[STATUS]);
 	
 	//Test with second set of value
@@ -182,7 +188,7 @@ void test_iorlw_should_update_status_flag(){
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[STATUS]);
 	
 	//Test with third set of value
@@ -191,7 +197,7 @@ void test_iorlw_should_update_status_flag(){
 	
 	iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0xfa,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
 	TEST_ASSERT_EQUAL_HEX8(0x10,FSR[STATUS]);
 	
 }

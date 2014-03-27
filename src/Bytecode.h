@@ -10,6 +10,11 @@
 unsigned char FSR[0x1000];
 unsigned extern char FSR[];
 
+int PC;
+extern int PC;
+
+
+
 typedef enum 	{	INVALID_INPUT,
 					INVALID_OP1,
 					INVALID_OP2,
@@ -29,8 +34,8 @@ typedef enum 	{
 					SUBWF, //completed	status affected C,DC,Z,OV,N
 					MULWF, //completed,	status affected none
 					CPFSGT,//completed 	status affected none
-					IORLW,
-					BNC,
+					IORLW, //completed  status affected Z,N
+					BNC,   //completed  status affected none
 					BOV,
 					RETURN,
 					//TBLRD*,

@@ -87,12 +87,12 @@ void test_cpfsgt_should_not_increase_absoluteAddress_with_invalid_input(){
 	FSR[0x2ff] = 0x08;
 	FSR[WREG] = 0x07;
 	int Exception;
-	
+	PC = code.absoluteAddress;
 	Try{ 		 
 	cpfsgt(&code);}
 	Catch(Exception){
 	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);
-	TEST_ASSERT_EQUAL_HEX16(0x100,code.absoluteAddress);}
+	TEST_ASSERT_EQUAL_HEX16(0x100,PC);}
 	
 }
 
@@ -109,13 +109,16 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_equal(){
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+
+	PC = code.absoluteAddress;
+					 
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x25;			//to make sure it use access
 	FSR[code.operand1] = 0x5;
 	FSR[WREG] = 0x5;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 }
 
@@ -132,13 +135,16 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_ACCESS()
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+					 
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x18;			//to make sure it use access
 	FSR[code.operand1] = 0x06;
 	FSR[WREG] = 0x07;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 }
 
@@ -155,13 +161,16 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_ACCESS_m
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+					 
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x280] = 0x18;			//to make sure it use access
 	FSR[code.operand1+(0xf<<8)] = 0x6;
 	FSR[WREG] = 0x07;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 }
 
@@ -178,13 +187,16 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_BANKED()
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+					 
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x18;			//to make sure it use access
 	FSR[code.operand1] = 0x06;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 }
 
@@ -201,13 +213,16 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_larger_with_default()
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+				
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x25;			//to make sure it use access
 	FSR[code.operand1] = 0x5;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
 	
 }
 
@@ -225,13 +240,16 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_ACCESS(){
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+					 
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x5;			//to make sure it use access
 	FSR[code.operand1] = 0x25;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -248,13 +266,16 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_ACCESS_more_t
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+					 
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x5;			//to make sure it use access
 	FSR[code.operand1+(0x0f<<8)] = 0x25;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -271,13 +292,16 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_BANKED(){
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+	
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x25;			//to make sure it use access
 	FSR[code.operand1] = 0x5;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -294,12 +318,14 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_default(){
 					  .operand3 = -1,		
 					  .absoluteAddress = 0x100
 					 };
+	PC = code.absoluteAddress;
+	
 	FSR[BSR] = 0x02;
 	FSR[0x2ff] = 0x5;			//to make sure it use access
 	FSR[code.operand1] = 0x25;
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,code.absoluteAddress);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }

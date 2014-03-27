@@ -92,7 +92,7 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 else
 	Throw(INVALID_OP1);
 
-code->absoluteAddress++;
+PC++;
 }
 
 void updateFlag (int value){

@@ -1,16 +1,16 @@
 #include "unity.h"
 #include "Bytecode.h"
-#include "BNC.h"
+#include "BOV.h"
 #include "CException.h"
 
 void setUp(void){}
 void tearDown(void){}
 
-void test_bnc_should_throw_error_operand2(){
+void test_bov_should_throw_error_operand2(){
 
 	Instruction instruction = {
-								.mnemonic = BNC,
-								.name = "bnc"
+								.mnemonic = BOV,
+								.name = "bov"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -22,18 +22,18 @@ void test_bnc_should_throw_error_operand2(){
 	
 	int Exception;
 	
-	Try{bnc(&code);}
+	Try{bov(&code);}
 	Catch(Exception){
 	TEST_ASSERT_EQUAL(INVALID_OP2,Exception);
 	}
 
 }
 
-void test_bnc_should_throw_error_operand3(){
+void test_bov_should_throw_error_operand3(){
 
 	Instruction instruction = {
-								.mnemonic = BNC,
-								.name = "bnc"
+								.mnemonic = BOV,
+								.name = "bov"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -45,18 +45,18 @@ void test_bnc_should_throw_error_operand3(){
 	
 	int Exception;
 	
-	Try{bnc(&code);}
+	Try{bov(&code);}
 	Catch(Exception){
 	TEST_ASSERT_EQUAL(INVALID_OP3,Exception);
 	}
 
 }
 
-void test_bnc_should_branch_when_no_carry(void)
+void test_bov_should_branch_when_overflow(void)
 {	
 	Instruction instruction = {
-								.mnemonic = BNC,
-								.name = "bnc"
+								.mnemonic = BOV,
+								.name = "bov"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -67,17 +67,17 @@ void test_bnc_should_branch_when_no_carry(void)
 					 };
 	
 	PC = code.absoluteAddress;
-	FSR[STATUS] = 0x00;
-	bnc(&code);
+	FSR[STATUS] = 0x8;
+	bov(&code);
 	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
 
 }
 
-void test_bnc_should_not_branch_when_carry(void)
+void test_bov_should_not_branch_when_not_overflow(void)
 {	
 	Instruction instruction = {
-								.mnemonic = BNC,
-								.name = "bnc"
+								.mnemonic = BOV,
+								.name = "bov"
 							  };
 	
 	Bytecode code = { .instruction = &instruction,
@@ -89,7 +89,7 @@ void test_bnc_should_not_branch_when_carry(void)
 	
 	PC = code.absoluteAddress;
 	FSR[STATUS] = 0x01;
-	bnc(&code);
+	bov(&code);
 	TEST_ASSERT_EQUAL_HEX16(0x201,PC);
 
 }

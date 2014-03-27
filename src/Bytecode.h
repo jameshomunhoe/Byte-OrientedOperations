@@ -36,20 +36,20 @@ typedef enum 	{
 					CPFSGT,//completed 	status affected none
 					IORLW, //completed  status affected Z,N
 					BNC,   //completed  status affected none
-					BOV,
+					BOV,   //completed  status affected none
 					RETURN,
 					//TBLRD*,
 					//TBLRD+,
 					XORWF, //kenmun do
-					IORWF, //kenmun do
-					DCFSNZ, //kenmun do
-					RRCF,	//kenmun do
+					IORWF, 
+					DCFSNZ, 
+					RRCF,	
 					MULLW,
 					BTG,
 					DAW,
 					RCALL,
 					POP,
-					//TBLRD*+,
+					//TBLRD*+,//kenmun do
 				} Mnemonic;
 
 

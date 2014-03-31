@@ -27,7 +27,8 @@ extern int PC;
 typedef enum 	{	INVALID_INPUT,
 					INVALID_OP1,
 					INVALID_OP2,
-					INVALID_OP3
+					INVALID_OP3,
+					OUT_OF_TABLE
 				} ErrorMessage;
 				
 				
@@ -47,8 +48,8 @@ typedef enum 	{
 					BNC,   //completed  status affected none
 					BOV,   //completed  status affected none
 					RETURN,
-					TBLRD,
-					TBLWT_PREINC,
+					TBLRD, //temporary completed status affected none
+					TBLWT_PREINC,//temporary completed status affected none
 					XORWF, //kenmun do
 					IORWF, 
 					DCFSNZ, 

@@ -6,9 +6,18 @@
 #define PRODH	0xff4
 #define PRODL	0xff3
 #define STATUS	0xfd8
+#define TBLPTRU	0xff8
+#define TBLPTRH 0xff7
+#define TBLPTRL	0xff6
+#define TABLAT	0xff5
+#define TOSU	0xfff
+#define	TOSH	0xffe
+#define TOSL	0xffd
 
 unsigned char FSR[0x1000];
 unsigned extern char FSR[];
+unsigned char TABLE[0x200000];
+unsigned extern char TABLE[];
 
 int PC;
 extern int PC;
@@ -38,8 +47,8 @@ typedef enum 	{
 					BNC,   //completed  status affected none
 					BOV,   //completed  status affected none
 					RETURN,
-					//TBLRD*,
-					//TBLRD+,
+					TBLRD,
+					TBLWT_PREINC,
 					XORWF, //kenmun do
 					IORWF, 
 					DCFSNZ, 

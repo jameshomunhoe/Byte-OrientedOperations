@@ -23,7 +23,7 @@ void iorlw(Bytecode *code){
 	else
 		Throw(INVALID_OP3);
 		
-	PC++;
+	PC+=2;
 }
 
 void updateFlag (int value){

@@ -90,6 +90,6 @@ void test_bnc_should_not_branch_when_carry(void)
 	PC = code.absoluteAddress;
 	FSR[STATUS] = 0x01;
 	bnc(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x201,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x202,PC);
 
 }

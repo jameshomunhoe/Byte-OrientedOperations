@@ -15,8 +15,26 @@
 
 void andwf(Bytecode *code){
 
-	int bankedValue = FSR[code->operand1+(FSR[BSR]<<8)]&FSR[WREG];
+	int bankedAddress;
+	int accessAddress;
+	int bankedValue;
 	int accessValue;
+	
+	if(code->operand1 >= 0x00 && code->operand1 <= 0xff)
+		bankedAddress = code->operand1+((FSR[BSR])<<8);
+	else
+		bankedAddress = code->operand1;
+		
+	if(code->operand1 >= 0x80 && code->operand1 <= 0xff)
+		accessAddress = code->operand1+((0xf)<<8);
+	else
+		accessAddress = code->operand1;
+
+		
+	if(code->operand1 >= 0x00 && code->operand1 <= 0xff)
+		bankedValue = FSR[code->operand1+(FSR[BSR]<<8)]&FSR[WREG];
+	else
+		bankedValue = FSR[code->operand1]&FSR[WREG];
 	
 	if(code->operand1 >=0x80)
 		accessValue = FSR[code->operand1+((0xf)<<8)]&FSR[WREG];
@@ -24,27 +42,18 @@ void andwf(Bytecode *code){
 		accessValue = FSR[code->operand1]&FSR[WREG];
 	
 	
-if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
+if((code->operand1 >= 0x00 && code->operand1 <= 0xff) || (code->operand1 >= 0xf80 && code->operand1 <= 0xfff)){
 	if(code->operand2 >= -5 && code->operand2 <= 1){
 		if(code->operand3 >= -5 && code->operand3 <= 1){
 	
-			if(code->operand2 == -1 && code->operand3 == -1){
-				if(code->operand1 >=0x80)
-					FSR[code->operand1+((0xf)<<8)] = accessValue;
-				else 
-					FSR[code->operand1] = accessValue;
-			}
+			if(code->operand2 == -1 && code->operand3 == -1)
+					FSR[accessAddress] = accessValue;
 	
 			else if(code->operand2 == F || code->operand2 == 1 ){
-				if(code->operand3==BANKED || code->operand3 == 1){
-					FSR[code->operand1+(FSR[BSR]<<8)] = bankedValue;
-				}
-				else if(code->operand3==ACCESS || code->operand3==-1 || code->operand3 == 0){
-					if(code->operand1 >=0x80)
-						FSR[code->operand1+((0xf)<<8)] = accessValue;
-					else 
-						FSR[code->operand1] = accessValue;
-				}
+				if(code->operand3==BANKED || code->operand3 == 1)
+					FSR[bankedAddress] = bankedValue;
+				else if(code->operand3==ACCESS || code->operand3==-1 || code->operand3 == 0)
+						FSR[accessAddress] = accessValue;
 				else
 					Throw(INVALID_OP3);
 			}
@@ -59,26 +68,22 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 			}
 	
 			else if(code->operand2 == ACCESS){
-				if(code->operand3 == -1){
-					if(code->operand1 >=0x80)
-						FSR[code->operand1+((0xf)<<8)] = accessValue;
-					else 
-						FSR[code->operand1] = accessValue;
-				}
+				if(code->operand3 == -1)
+						FSR[accessAddress] = accessValue;
 				else
 					Throw(INVALID_OP3);
 			}
 	
 			else if(code->operand2 == BANKED){
 				if(code->operand3 == -1)
-					FSR[code->operand1+(FSR[BSR]<<8)] = bankedValue;
+					FSR[bankedAddress] = bankedValue;
 				else
 					Throw(INVALID_OP3);
 			}
 			else
 				Throw(INVALID_OP3);
 				
-			if((code->operand2 == BANKED) || code->operand3 == BANKED)
+			if((code->operand2 == BANKED) || code->operand3 == BANKED || code->operand3 == 1)
 				updateFlag(bankedValue);
 			else if(code->operand2 == -1 || code->operand2==1 || (code->operand2 == ACCESS&&code->operand3 == -1) )
 				updateFlag(accessValue);
@@ -92,7 +97,7 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
 else
 	Throw(INVALID_OP1);
 
-PC++;
+PC+=2;
 }
 
 void updateFlag (int value){

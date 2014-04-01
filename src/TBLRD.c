@@ -18,6 +18,6 @@ void tblrd(Bytecode *code){
 	
 	FSR[TABLAT] = TABLE[TableAddress];
 	
-	PC++;
+	PC+=2;
 
 }

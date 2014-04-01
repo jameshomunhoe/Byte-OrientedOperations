@@ -118,7 +118,7 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_equal(){
 	FSR[WREG] = 0x5;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -144,7 +144,7 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_ACCESS()
 	FSR[WREG] = 0x07;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -170,7 +170,7 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_ACCESS_m
 	FSR[WREG] = 0x07;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -196,7 +196,7 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_smaller_with_BANKED()
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -222,7 +222,7 @@ void test_cpfsgt_should_not_skip_absoluteAddress_with_file_larger_with_default()
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -249,7 +249,7 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_ACCESS(){
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 }
 
@@ -275,7 +275,7 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_ACCESS_more_t
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 }
 
@@ -301,7 +301,7 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_BANKED(){
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 }
 
@@ -326,6 +326,6 @@ void test_cpfsgt_should_skip_absoluteAddress_with_file_larger_with_default(){
 	FSR[WREG] = 0x20;
 		
 	cpfsgt(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 }

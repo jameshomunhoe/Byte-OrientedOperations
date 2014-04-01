@@ -33,14 +33,14 @@ void test_tblwt_preinc_should_write_value_into_table_with_pre_increment(void){
 	
 	tblwt_preinc(&code);
 	TEST_ASSERT_EQUAL(0x50,TABLE[0x1fffff]);
-	TEST_ASSERT_EQUAL_HEX16(0x301,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x302,PC);
 
 	//second value
 	FSR[TABLAT] = 0xa5;	
 	
 	tblwt_preinc(&code);
 	TEST_ASSERT_EQUAL(0xa5,TABLE[0x200000]);
-	TEST_ASSERT_EQUAL_HEX16(0x302,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x304,PC);
 
 	
 	//3rd set of value should throw error out of table

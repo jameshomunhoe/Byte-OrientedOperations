@@ -35,7 +35,7 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 	
 	tblrd(&code);
 	TEST_ASSERT_EQUAL(0x99,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x301,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x302,PC);
 
 	//2nd set of value
 	FSR[TBLPTRU] = 0x12;
@@ -44,7 +44,7 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 	
 	tblrd(&code);
 	TEST_ASSERT_EQUAL(0xaa,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x302,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x304,PC);
 
 	
 	//3rd set of value
@@ -54,7 +54,7 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 	
 	tblrd(&code);
 	TEST_ASSERT_EQUAL(0xff,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x303,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x306,PC);
 
 	
 }

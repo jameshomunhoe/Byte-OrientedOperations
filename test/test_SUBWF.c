@@ -92,7 +92,6 @@ void test_subwf_should_not_update_absoluteAddress(){
 	Catch(Exception){
 	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
 	}
-	
 }
 
 void test_subwf_should_update_absoluteAddress(){
@@ -108,11 +107,11 @@ void test_subwf_should_update_absoluteAddress(){
 					  .operand3 = -1,
 					  .absoluteAddress = 0x100
 					 };
+					 
 	PC = code.absoluteAddress;
 	
 	subwf(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 }
 
 void test_subwf_should_save_answer_in_WREG_with_input_0(){
@@ -137,7 +136,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -145,7 +144,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -153,8 +152,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_0(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_WREG_with_input_W(){
@@ -179,7 +177,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -187,7 +185,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -195,8 +193,7 @@ void test_subwf_should_save_answer_in_WREG_with_input_W(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
@@ -223,7 +220,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x09;
@@ -232,7 +229,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -241,8 +238,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
@@ -269,7 +265,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x09;
@@ -278,7 +274,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -287,8 +283,7 @@ void test_subwf_should_save_answer_in_WREG_with_bsr_with_input_BANKED(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_fileregister_with_input_1(){
@@ -313,7 +308,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -321,7 +316,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -329,8 +324,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_1(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_fileregister_with_input_F(){
@@ -355,7 +349,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -363,7 +357,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -371,7 +365,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_F(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_andwf_should_save_answer_in_fileregister_with_default_operand3(){
@@ -396,7 +390,7 @@ void test_andwf_should_save_answer_in_fileregister_with_default_operand3(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -404,7 +398,7 @@ void test_andwf_should_save_answer_in_fileregister_with_default_operand3(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -412,7 +406,7 @@ void test_andwf_should_save_answer_in_fileregister_with_default_operand3(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
@@ -437,7 +431,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0xfff]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[0xfff] = 0x07;
@@ -445,7 +439,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0xfff]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[0xfff] = 0x0f;
@@ -453,8 +447,7 @@ void test_subwf_should_save_answer_in_fileregister_more_than_0x80(){
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0xfff]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_fileregister_with_bsr(){
@@ -474,18 +467,8 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	PC = code.absoluteAddress;
 	
 	//Test with first set of value
-	FSR[code.operand1] = 0xff;
-	FSR[0x250] = 0x08;
-	FSR[WREG] = 0x07;
 	FSR[BSR] = 0x02;
-	
-	
-	subwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
-	
-	//Test with second set of value
-	FSR[code.operand1] = 0x09;
+	FSR[code.operand1] = 0xff;
 	FSR[0x250] = 0x08;
 	FSR[WREG] = 0x07;
 	
@@ -493,15 +476,25 @@ void test_subwf_should_save_answer_in_fileregister_with_bsr(){
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
 	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
+	//Test with second set of value
+	FSR[BSR] = 0x03;
+	FSR[code.operand1] = 0x09;
+	FSR[0x350] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x350]);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
+	
 	//Test with third set of value
+	FSR[BSR] = 0x04;
 	FSR[code.operand1] = 0x0f;
-	FSR[0x250] = 0x0e;
+	FSR[0x450] = 0x0e;
 	FSR[WREG] = 0x0a;
 	
 	subwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[0x250]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[0x450]);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_subwf_should_save_answer_in_fileregister_with_input_ACCESS_in_operand2(){
@@ -526,7 +519,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_ACCESS_in_operand2
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -534,7 +527,7 @@ void test_subwf_should_save_answer_in_fileregister_with_input_ACCESS_in_operand2
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -542,11 +535,10 @@ void test_subwf_should_save_answer_in_fileregister_with_input_ACCESS_in_operand2
 	
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
-	
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
-void test_subwf_should_save_answer_in_fileregister_with_BANKED_in_operand2(){
+void test_subwf_should_save_answer_in_fileregister_with_input_BANKED_in_operand2(){
 
 	Instruction instruction = {
 								.mnemonic = SUBWF,
@@ -563,18 +555,8 @@ void test_subwf_should_save_answer_in_fileregister_with_BANKED_in_operand2(){
 	PC = code.absoluteAddress;
 	
 	//Test with first set of value
-	FSR[code.operand1] = 0xff;
-	FSR[0x250] = 0x08;
-	FSR[WREG] = 0x07;
 	FSR[BSR] = 0x02;
-	
-	
-	subwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
-	
-	//Test with second set of value
-	FSR[code.operand1] = 0x09;
+	FSR[code.operand1] = 0xff;
 	FSR[0x250] = 0x08;
 	FSR[WREG] = 0x07;
 	
@@ -582,15 +564,67 @@ void test_subwf_should_save_answer_in_fileregister_with_BANKED_in_operand2(){
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x250]);
 	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
+	//Test with second set of value
+	FSR[BSR] = 0x03;
+	FSR[code.operand1] = 0x09;
+	FSR[0x350] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x350]);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
+	
 	//Test with third set of value
+	FSR[BSR] = 0x04;
 	FSR[code.operand1] = 0x0f;
-	FSR[0x250] = 0x0e;
+	FSR[0x450] = 0x0e;
 	FSR[WREG] = 0x0a;
 	
 	subwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[0x250]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[0x450]);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
+}
+
+void test_subwf_should_save_answer_in_fileregister_with_SFR_input(){
+
+	Instruction instruction = {
+								.mnemonic = SUBWF,
+								.name = "subwf"
+							  };
 	
+	Bytecode code = { .instruction = &instruction,
+					  .operand1 =0xffe ,		
+					  .operand2 = BANKED ,		//0 = WREG, 1 = file
+					  .operand3 = -1,			//-1/0 = bsr ignore, 1 = bank with bsr
+					  .absoluteAddress = 0x100
+					 };
+	
+	PC = code.absoluteAddress;
+	
+	//Test with first set of value
+	FSR[BSR] = 0x02;
+	FSR[code.operand1] = 0x08;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[code.operand1]);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	
+	//Test with second set of value
+	FSR[code.operand1] = 0x09;
+	FSR[WREG] = 0x07;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x02,FSR[code.operand1]);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
+	
+	//Test with third set of value
+	FSR[code.operand1] = 0x0f;
+	FSR[WREG] = 0x0a;
+	
+	subwf(&code);
+	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[code.operand1]);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 }
 
 void test_andwf_should_update_status_flag(){
@@ -616,7 +650,7 @@ void test_andwf_should_update_status_flag(){
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x50]);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[STATUS]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[code.operand1] = 0x07;
@@ -625,7 +659,7 @@ void test_andwf_should_update_status_flag(){
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[0x50]);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[STATUS]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[code.operand1] = 0x0f;
@@ -634,6 +668,6 @@ void test_andwf_should_update_status_flag(){
 	subwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x05,FSR[0x50]);
 	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[STATUS]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }

@@ -10,7 +10,7 @@ void bnc(Bytecode *code){
 		if(code->operand3 == -1){
 		
 			if(FSR[STATUS] & 0x01)
-				PC++;
+				PC+=2;
 			else
 				PC = code->operand1;
 		}

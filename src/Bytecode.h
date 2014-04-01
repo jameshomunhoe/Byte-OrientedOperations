@@ -13,6 +13,7 @@
 #define TOSU	0xfff
 #define	TOSH	0xffe
 #define TOSL	0xffd
+#define STKPTR	0xffc
 
 unsigned char FSR[0x1000];
 unsigned extern char FSR[];

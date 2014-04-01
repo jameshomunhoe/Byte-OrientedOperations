@@ -37,6 +37,6 @@ void tblwt_preinc(Bytecode *code){
 	
 	TABLE[TableAddress] = FSR[TABLAT];
 	
-	PC++;
+	PC+=2;
 	
 }

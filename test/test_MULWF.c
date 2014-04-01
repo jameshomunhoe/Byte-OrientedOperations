@@ -107,7 +107,7 @@ void test_mulwf_should_update_absoluteAddress(){
 					 };
 	PC = code.absoluteAddress;				 	 
 	mulwf(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 }
 
@@ -135,7 +135,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -145,7 +145,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -155,7 +155,7 @@ void test_mulwf_should_multiply_fileregister_by_input_0(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }
 
@@ -183,7 +183,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -193,7 +193,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -203,7 +203,7 @@ void test_mulwf_should_multiply_fileregister_by_input_ACCESS(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }
 
@@ -231,7 +231,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x38,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -241,7 +241,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -251,7 +251,7 @@ void test_mulwf_should_multiply_fileregister_more_than_0x80(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf6,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }
 
@@ -280,7 +280,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -291,7 +291,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x06,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf9,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -302,7 +302,7 @@ void test_mulwf_should_multiply_fileregister_with_input_1(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x60,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }
 
@@ -332,7 +332,7 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x31,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x101,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
 	
 	//Test with second set of value
 	FSR[BSR] = 0x03;
@@ -343,7 +343,7 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x06,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0xf9,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
 	
 	//Test with third set of value
 	FSR[BSR] = 0x04;
@@ -354,6 +354,6 @@ void test_mulwf_should_multiply_fileregister_with_input_BANKED(){
 	mulwf(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x09,FSR[PRODH]);
 	TEST_ASSERT_EQUAL_HEX8(0x60,FSR[PRODL]);
-	TEST_ASSERT_EQUAL_HEX16(0x103,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
 	
 }

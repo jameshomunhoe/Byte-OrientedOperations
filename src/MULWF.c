@@ -31,13 +31,15 @@ if(code->operand3 == -1){
 		else
 			Throw(INVALID_OP2);
 	}
+	else if(code->operand1 >=0xf80 && code->operand1 <= 0xfff)
+		tempForAnswer = FSR[code->operand1]*FSR[WREG];
 	else
 		Throw(INVALID_OP1);
 }
 else
 	Throw(INVALID_OP3);
 	
-	PC++;
+	PC+=2;
 	FSR[PRODH] = (tempForAnswer&0xff00)>>8;
 	FSR[PRODL] = (tempForAnswer&0x00ff);
 }

@@ -12,7 +12,7 @@ void bov(Bytecode *code){
 			if((FSR[STATUS] & 0x08)>>3)
 				PC = code->operand1;
 			else
-				PC++;
+				PC+=2;
 		}
 		else
 			Throw(INVALID_OP3);

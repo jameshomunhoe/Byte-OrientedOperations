@@ -15,10 +15,12 @@
 #define TOSL	0xffd
 #define STKPTR	0xffc
 
-unsigned char FSR[0x1000];
-unsigned extern char FSR[];
-unsigned char TABLE[0x200000];
-unsigned extern char TABLE[];
+unsigned char 			FSR[0x1000];
+unsigned extern char 	FSR[];
+unsigned char 			TABLE[0x200000];
+unsigned extern char 	TABLE[];
+unsigned int			PIC18Stack[32];
+unsigned extern int		PIC18Stack[];
 
 int PC;
 extern int PC;

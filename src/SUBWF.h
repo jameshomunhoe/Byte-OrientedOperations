@@ -2,8 +2,8 @@
 #define	__SUBWF_H__
 
 
-void subwf(Bytecode *code);
-void updateFlag (int value);
+int subwf(Bytecode *code);
+void updateFlag (int value,int original,int wreg);
 
 
 #endif	// __SUBWF_H__

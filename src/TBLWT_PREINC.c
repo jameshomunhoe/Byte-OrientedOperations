@@ -11,7 +11,20 @@
 // F,
 // W.
 
-void tblwt_preinc(Bytecode *code){
+
+/**
+*	
+*	Function Name 	: tblwt_preinc
+*	Input			: Bytecode
+*	Output			: code.absoluteAddress
+*	Destroy			: FSR[TBLPTRU],FSR[TBLPTRH],FSR[TBLPTRL],TABLE[]
+*	
+*	Description		: This fuction will write table latch(TABLAT) data into the table
+*
+*
+*
+**/
+int tblwt_preinc(Bytecode *code){
 
 	int TableAddress;
 	
@@ -37,6 +50,7 @@ void tblwt_preinc(Bytecode *code){
 	
 	TABLE[TableAddress] = FSR[TABLAT];
 	
-	PC+=2;
+	code->absoluteAddress++;
+	return code->absoluteAddress;
 	
 }

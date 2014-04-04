@@ -83,11 +83,11 @@ void test_iorlw_should_not_update_absoluteAddress(){
 					  .absoluteAddress = 0x100
 					 };
 	int Exception;
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	
-	Try{iorlw(&code);}
+	Try{absoluteCheck =iorlw(&code);}
 	Catch(Exception){
-	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
+	TEST_ASSERT_EQUAL_HEX16(INVALID_OP2,Exception);
 	}
 	
 }
@@ -106,12 +106,12 @@ void test_iorlw_should_update_absoluteAddress(){
 					  .absoluteAddress = 0x100
 					 };
 	int Exception;
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	
-	Try{iorlw(&code);}
-	Catch(Exception){
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
-	}
+	absoluteCheck =iorlw(&code);
+
+	TEST_ASSERT_EQUAL_HEX16(0x101,absoluteCheck);
+	
 	
 }
 
@@ -129,31 +129,31 @@ void test_iorlw_should_do_ior_properly(){
 					  .absoluteAddress = 0x100
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	
 	//Test with first set of value
 	code.operand1 = 0x08;
 	FSR[WREG] = 0x07;
 	
-	iorlw(&code);
+	absoluteCheck = iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x101,absoluteCheck);
 	
 	//Test with second set of value
 	code.operand1 = 0x07;
 	FSR[WREG] = 0x07;
 	
-	iorlw(&code);
+	absoluteCheck = iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x07,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,absoluteCheck);
 	
 	//Test with third set of value
 	code.operand1 = 0x1f;
 	FSR[WREG] = 0x0a;
 	
-	iorlw(&code);
+	absoluteCheck = iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x1f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x103,absoluteCheck);
 	
 }
 
@@ -171,33 +171,33 @@ void test_iorlw_should_update_status_flag(){
 					  .absoluteAddress = 0x100
 					 };
 					 
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	
 	//Test with first set of value
 	code.operand1 = 0x08;
 	FSR[WREG] = 0x07;
 	
-	iorlw(&code);
+	absoluteCheck =iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0f,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x102,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x101,absoluteCheck);
 	TEST_ASSERT_EQUAL_HEX8(0x00,FSR[STATUS]);
 	
 	//Test with second set of value
 	code.operand1 = 0x0;
 	FSR[WREG] = 0x0;
 	
-	iorlw(&code);
+	absoluteCheck= iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0x0,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x104,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x102,absoluteCheck);
 	TEST_ASSERT_EQUAL_HEX8(0x04,FSR[STATUS]);
 	
 	//Test with third set of value
 	code.operand1 = 0xf0;
 	FSR[WREG] = 0x0a;
 	
-	iorlw(&code);
+	absoluteCheck=iorlw(&code);
 	TEST_ASSERT_EQUAL_HEX8(0xfa,FSR[WREG]);
-	TEST_ASSERT_EQUAL_HEX16(0x106,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x103,absoluteCheck);
 	TEST_ASSERT_EQUAL_HEX8(0x10,FSR[STATUS]);
 	
 }

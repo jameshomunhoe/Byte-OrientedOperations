@@ -3,7 +3,19 @@
 #include "IORLW.h"
 #include "CException.h"
 
-void iorlw(Bytecode *code){
+/**
+*	
+*	Function Name 	: iorlw
+*	Input			: Bytecode
+*	Output			: code.absoluteAddress
+*	Destroy			: FSR[WREG]
+*	
+*	Description		: This fuction will do IOR operation for literal and WorkingRegister(WREG)
+*
+*
+*
+**/
+int iorlw(Bytecode *code){
 	
 	int valueForCheck;
 	if(code->operand3 == -1){
@@ -23,7 +35,8 @@ void iorlw(Bytecode *code){
 	else
 		Throw(INVALID_OP3);
 		
-	PC+=2;
+	code->absoluteAddress++;
+	return code->absoluteAddress;
 }
 
 void updateFlag (int value){

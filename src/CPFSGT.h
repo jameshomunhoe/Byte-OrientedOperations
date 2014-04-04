@@ -2,7 +2,7 @@
 #define	__CPFSGT_H__
 
 
-void cpfsgt(Bytecode *code);
+int cpfsgt(Bytecode *code);
 
 
 #endif	// __CPFSGT_H__

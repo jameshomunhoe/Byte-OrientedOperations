@@ -1,6 +1,6 @@
 #ifndef BNC_H
 #define BNC_H
 
-void bnc(Bytecode *code);
+int bnc(Bytecode *code);
 
 #endif // BNC_H

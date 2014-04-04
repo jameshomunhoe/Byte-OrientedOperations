@@ -21,7 +21,7 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 					  .absoluteAddress = 0x300
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	
 	//fixture to read
 	TABLE[0x11aaff] = 0x99;
@@ -33,18 +33,18 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 	FSR[TBLPTRH] = 0xaa;
 	FSR[TBLPTRL] = 0xff;
 	
-	tblrd(&code);
+	absoluteCheck = tblrd(&code);
 	TEST_ASSERT_EQUAL(0x99,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x302,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x301,absoluteCheck);
 
 	//2nd set of value
 	FSR[TBLPTRU] = 0x12;
 	FSR[TBLPTRH] = 0x34;
 	FSR[TBLPTRL] = 0x56;
 	
-	tblrd(&code);
+	absoluteCheck = tblrd(&code);
 	TEST_ASSERT_EQUAL(0xaa,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x304,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x302,absoluteCheck);
 
 	
 	//3rd set of value
@@ -52,9 +52,9 @@ void test_tblrd_should_read_value_into_TABLAT(void){
 	FSR[TBLPTRH] = 0xbc;
 	FSR[TBLPTRL] = 0xde;
 	
-	tblrd(&code);
+	absoluteCheck = tblrd(&code);
 	TEST_ASSERT_EQUAL(0xff,FSR[TABLAT]);
-	TEST_ASSERT_EQUAL_HEX16(0x306,PC);
+	TEST_ASSERT_EQUAL_HEX16(0x303,absoluteCheck);
 
 	
 }

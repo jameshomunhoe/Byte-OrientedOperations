@@ -12,46 +12,70 @@
 
 //input fileaddress,access/bank
 
-
-void cpfsgt(Bytecode *code){
+/**
+*	
+*	Function Name 	: cpfsgt
+*	Input			: Bytecode
+*	Output			: code.absoluteAddress
+*	Destroy			: null
+*	
+*	Description		: This fuction will skip if the file register is greater than Working Register(WREG)
+*
+*
+*
+**/
+int cpfsgt(Bytecode *code){
 
 if(code->operand3 == -1){
 
-	if(code->operand1 >= 0x00 && code->operand1 <= 0xff){
+	if(code->operand1 >= 0x00 && code->operand1 <= 0xfff){
 
-		if(code->operand2==BANKED || code->operand2==1){
-			if(FSR[code->operand1+(FSR[BSR]<<8)] > FSR[WREG])
-				PC+=4;
-			else
-				PC+=2;
-		}
-	
-		else if(code->operand2==ACCESS || code->operand2==-1 || code->operand2==0){
-			if(code->operand1 >=0x80){
-				if(FSR[code->operand1+((0xf)<<8)]>FSR[WREG])
-					PC+=4;
+		if(code->operand2 ==-1){
+			if(code->operand1 >= 0x80 && code->operand1 <= 0xff){
+				if(FSR[code->operand1+((0xf)<<8)] > FSR[WREG])
+					code->absoluteAddress+=2;
 				else
-					PC+=2;
+					code->absoluteAddress++;
+			}
+			
+			else
+				if(FSR[code->operand1] > FSR[WREG])
+					code->absoluteAddress+=2;
+				else
+					code->absoluteAddress++;
+		}
+			
+		if(code->operand2==ACCESS || code->operand2==0){
+			if((code->operand1 >= 0x00 && code->operand1 <= 0x7f) || (code->operand2 >= 0xf80 && code->operand2 <= 0xfff)){
+				if(FSR[code->operand1]>FSR[WREG])
+					code->absoluteAddress+=2;
+				else
+					code->absoluteAddress++;
+			}
+			else if(code->operand1 >=0x80 && code->operand1 <= 0xff){
+				if(FSR[code->operand1+((0xf)<<8)]>FSR[WREG])
+					code->absoluteAddress+=2;
+				else
+					code->absoluteAddress++;
 			}
 			else{
-				if(FSR[code->operand1]>FSR[WREG])
-					PC+=4;
-				else
-					PC+=2;
+				Throw(INVALID_OP2);
 			}
 		}
-		else
-			Throw(INVALID_OP2);
-	}
-	else if(code->operand1 >= 0xf80 && code->operand1 <= 0xfff){
-		if(FSR[code->operand1] > FSR[WREG])
-			PC+=4;
-		else
-			PC+=2;
+		
+		if(code->operand2==BANKED || code->operand2==1){
+			if(FSR[code->operand1+(FSR[BSR]<<8)] > FSR[WREG])
+				code->absoluteAddress+=2;
+			else
+				code->absoluteAddress++;
+		}
+		
+		
 	}
 	else
 		Throw(INVALID_OP1);
 }
 else
 	Throw(INVALID_OP3);
+return code->absoluteAddress;
 }

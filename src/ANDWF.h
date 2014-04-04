@@ -2,7 +2,7 @@
 #define	__ANDWF_H__
 
 
-void andwf(Bytecode *code);
+int andwf(Bytecode *code);
 void updateFlag (int value);
 
 

@@ -4,15 +4,30 @@
 #include <math.h>
 #include "CException.h"
 
-void bov(Bytecode *code){
+
+/**
+*	
+*	Function Name 	: bov
+*	Input			: Bytecode
+*	Output			: code.absoluteAddress
+*	Destroy			: null
+*	
+*	Description		: This fuction will branch if the FSR[STATUS] has OverFlow
+*
+*
+*
+**/
+int bov(Bytecode *code){
 	
 	if(code->operand2 == -1){
 		if(code->operand3 == -1){
 		
 			if((FSR[STATUS] & 0x08)>>3)
-				PC = code->operand1;
-			else
-				PC+=2;
+				return code->operand1;
+			else{
+				code->absoluteAddress++;
+				return code->absoluteAddress;
+			}
 		}
 		else
 			Throw(INVALID_OP3);

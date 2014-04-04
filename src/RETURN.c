@@ -8,7 +8,20 @@
 // pop = read dec counter
 // push = inc and push
 
-void return1(Bytecode *code){
+/**
+*	
+*	Function Name 	: return
+*	Input			: Bytecode
+*	Output			: Address from TopOfStack(TOS)
+*	Destroy			: FSR[TOSU],FSR{TOSH],FSR[TOSL]
+*	
+*	Description		: This fuction will return to the address of TopOfStack
+*
+*
+*
+**/
+
+int return1(Bytecode *code){
 
 	//fixture shadow register
 	int	WREGS = 0x12;
@@ -28,13 +41,12 @@ if(code->operand1 >= -1 && code->operand1 <=1){
 	FSR[STKPTR]--;
 	*/
 	
-	PC = (FSR[TOSU]<<16)+(FSR[TOSH]<<8)+FSR[TOSL];
-	
 	if(code->operand1 == 1){
 		FSR[WREG] = WREGS;
 		FSR[STATUS] = STATUSS;
 		FSR[BSR] = BSRS;
 	}
+	return (FSR[TOSU]<<16)+(FSR[TOSH]<<8)+FSR[TOSL];
 }
 else
 	Throw(INVALID_OP1);

@@ -29,7 +29,7 @@ void test_return1_should_throw_invalid_operand1(void)
 	TEST_ASSERT_EQUAL(INVALID_OP1,Exception);}
 }
 
-void test_return1_should_return_PC(void)
+void test_return1_should_return_absoluteAddress(void)
 {
 	Instruction instruction = {
 								.mnemonic = RETURN,
@@ -43,14 +43,14 @@ void test_return1_should_return_PC(void)
 					  .absoluteAddress = 0x200000
 					 };
 
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[STKPTR] = 2;
 	FSR[TOSU] = 0x12;
 	FSR[TOSH] = 0x34;
 	FSR[TOSL] = 0x56;
 	
-	return1(&code);
-	TEST_ASSERT_EQUAL_HEX32(0x123456,PC);
+	absoluteCheck = return1(&code);
+	TEST_ASSERT_EQUAL_HEX32(0x123456,absoluteCheck);
 }
 
 void test_return1_should_return_PC_and_shadow_register(void)
@@ -67,7 +67,7 @@ void test_return1_should_return_PC_and_shadow_register(void)
 					  .absoluteAddress = 0x200000
 					 };
 					
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[WREG] = 0x01;
 	FSR[STATUS] = 0x01;
 	FSR[BSR] = 0x01;
@@ -77,8 +77,8 @@ void test_return1_should_return_PC_and_shadow_register(void)
 	FSR[TOSH] = 0x34;
 	FSR[TOSL] = 0x56;
 	
-	return1(&code);
-	TEST_ASSERT_EQUAL_HEX32(0x123456,PC);
+	absoluteCheck = return1(&code);
+	TEST_ASSERT_EQUAL_HEX32(0x123456,absoluteCheck);
 	TEST_ASSERT_EQUAL(0x12,FSR[WREG]);
 	TEST_ASSERT_EQUAL(0x20,FSR[STATUS]);
 	TEST_ASSERT_EQUAL(0x08,FSR[BSR]);

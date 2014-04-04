@@ -66,10 +66,10 @@ void test_bov_should_branch_when_overflow(void)
 					  .absoluteAddress = 0x200
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[STATUS] = 0x8;
-	bov(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
+	absoluteCheck = bov(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x100,absoluteCheck);
 
 }
 
@@ -87,9 +87,9 @@ void test_bov_should_not_branch_when_not_overflow(void)
 					  .absoluteAddress = 0x200
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[STATUS] = 0x01;
-	bov(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x202,PC);
+	absoluteCheck = bov(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x201,absoluteCheck);
 
 }

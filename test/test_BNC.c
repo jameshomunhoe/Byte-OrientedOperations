@@ -66,10 +66,10 @@ void test_bnc_should_branch_when_no_carry(void)
 					  .absoluteAddress = 0x200
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[STATUS] = 0x00;
-	bnc(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x100,PC);
+	absoluteCheck = bnc(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x100,absoluteCheck);
 
 }
 
@@ -87,9 +87,9 @@ void test_bnc_should_not_branch_when_carry(void)
 					  .absoluteAddress = 0x200
 					 };
 	
-	PC = code.absoluteAddress;
+	int absoluteCheck;
 	FSR[STATUS] = 0x01;
-	bnc(&code);
-	TEST_ASSERT_EQUAL_HEX16(0x202,PC);
+	absoluteCheck = bnc(&code);
+	TEST_ASSERT_EQUAL_HEX16(0x201,absoluteCheck);
 
 }

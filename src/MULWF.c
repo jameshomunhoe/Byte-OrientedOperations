@@ -34,22 +34,20 @@ if(code->operand3 == -1){
 
 		if(code->operand2 == -1){
 			if(code->operand1 >= 0x80 && code->operand1 <= 0xff)
-				tempForAnswer = FSR[code->operand1+((0xf)<<8)]*FSR[WREG];
+				tempForAnswer = FSR[(code->operand1&0xff)+((0xf)<<8)]*FSR[WREG];
 			else
 				tempForAnswer = FSR[code->operand1]*FSR[WREG];
 		}
 	
 		if (code->operand2 == ACCESS || code->operand2 == 0){
-			if((code->operand1 >= 0x00 && code->operand1 <= 0x7f) || (code->operand2 >= 0xf80 && code->operand2 <= 0xfff))
-				tempForAnswer = FSR[code->operand1]*FSR[WREG];
-			else if(code->operand1 >= 0x80 && code->operand1 <= 0xff)
-				tempForAnswer = FSR[code->operand1+((0xf)<<8)]*FSR[WREG];
+			if((code->operand1 >= 0x00 && code->operand1 <= 0x7f) || (code->operand2 >= 0x100 && code->operand2 <= 0xf7f))
+				tempForAnswer = FSR[(code->operand1&0xff)]*FSR[WREG];
 			else
-				Throw(INVALID_OP2);
+				tempForAnswer = FSR[(code->operand1&0xff)+((0xf)<<8)]*FSR[WREG];
 		}
 
 		if(code->operand2 == BANKED ||code->operand2 == 1)
-			tempForAnswer = FSR[code->operand1+(FSR[BSR]<<8)]*FSR[WREG];
+			tempForAnswer = FSR[(code->operand1&0xff)+(FSR[BSR]<<8)]*FSR[WREG];
 	}
 	else
 		Throw(INVALID_OP1);

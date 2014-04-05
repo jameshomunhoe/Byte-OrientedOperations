@@ -31,13 +31,15 @@ int subwf(Bytecode *code){
 	int accessValue;
 	int forOVBSR = FSR[(code->operand1&0xff)+((FSR[BSR])<<8)];
 	int forOVACS = FSR[code->operand1];
-	int forOVBankF = FSR[code->operand1+((0xf)<<8)];
+	int forOVBankF = FSR[(code->operand1&0xff)+((0xf)<<8)];
 	int oriWreg = FSR[WREG];
 	
 		bankedAddress = (code->operand1&0xff)+((FSR[BSR])<<8);
 		
 	if(code->operand1 >= 0x80 && code->operand1 <= 0xff)
-		accessAddress = code->operand1+((0xf)<<8);
+		accessAddress = (code->operand1&0xff)+((0xf)<<8);
+	else if (code->operand1 >=0x100 && code->operand1 <=0xf7f)
+		accessAddress = (code->operand1&0xff);
 	else
 		accessAddress = code->operand1;
 		
@@ -45,7 +47,9 @@ int subwf(Bytecode *code){
 		bankedValue = FSR[(code->operand1&0xff)+((FSR[BSR])<<8)]-FSR[WREG];
 	
 	if(code->operand1 >=0x80 && code->operand1 <=0xff)
-		accessValue = FSR[code->operand1+((0xf)<<8)]-FSR[WREG];
+		accessValue = FSR[(code->operand1&0xff)+((0xf)<<8)]-FSR[WREG];
+	else if (code->operand1 >=0x100 && code->operand1 <=0xf7f)
+		accessValue = FSR[(code->operand1&0xff)]-FSR[WREG];
 	else
 		accessValue = FSR[code->operand1]-FSR[WREG];
 	
@@ -73,12 +77,8 @@ if(code->operand1 >= 0x00 && code->operand1 <= 0xfff){
 			else if(code->operand2 == W || code->operand2 == 0){
 				if(code->operand3==BANKED || code->operand3 == 1)
 					FSR[WREG] = bankedValue;
-				else if(code->operand3==ACCESS || code->operand3 == -1 || code->operand3 == 0){
-					if(code->operand3 == -1 && (code->operand1 >= 0x100 && code->operand1 <= 0xf7f))
-						Throw(INVALID_OP2);
-					else
+				else if(code->operand3==ACCESS || code->operand3 == -1 || code->operand3 == 0)
 						FSR[WREG] = accessValue;
-				}
 				else
 					Throw(INVALID_OP3);
 			}

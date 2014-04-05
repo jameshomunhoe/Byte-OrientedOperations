@@ -32,12 +32,11 @@ if(code->operand3 == -1){
 
 		if(code->operand2 ==-1){
 			if(code->operand1 >= 0x80 && code->operand1 <= 0xff){
-				if(FSR[code->operand1+((0xf)<<8)] > FSR[WREG])
+				if(FSR[(code->operand1&0xff)+((0xf)<<8)] > FSR[WREG])
 					code->absoluteAddress+=2;
 				else
 					code->absoluteAddress++;
 			}
-			
 			else
 				if(FSR[code->operand1] > FSR[WREG])
 					code->absoluteAddress+=2;
@@ -45,26 +44,23 @@ if(code->operand3 == -1){
 					code->absoluteAddress++;
 		}
 			
-		if(code->operand2==ACCESS || code->operand2==0){
-			if((code->operand1 >= 0x00 && code->operand1 <= 0x7f) || (code->operand2 >= 0xf80 && code->operand2 <= 0xfff)){
-				if(FSR[code->operand1]>FSR[WREG])
-					code->absoluteAddress+=2;
-				else
-					code->absoluteAddress++;
-			}
-			else if(code->operand1 >=0x80 && code->operand1 <= 0xff){
-				if(FSR[code->operand1+((0xf)<<8)]>FSR[WREG])
+		else if(code->operand2==ACCESS || code->operand2==0){
+			if((code->operand1 >= 0x00 && code->operand1 <= 0x7f) || (code->operand1 >= 0x100 && code->operand1 <= 0xf7f)){
+				if(FSR[code->operand1&0xff]>FSR[WREG])
 					code->absoluteAddress+=2;
 				else
 					code->absoluteAddress++;
 			}
 			else{
-				Throw(INVALID_OP2);
+				if(FSR[(code->operand1&0xff)+((0xf)<<8)]>FSR[WREG])
+					code->absoluteAddress+=2;
+				else
+					code->absoluteAddress++;
 			}
 		}
 		
-		if(code->operand2==BANKED || code->operand2==1){
-			if(FSR[code->operand1+(FSR[BSR]<<8)] > FSR[WREG])
+		else if(code->operand2==BANKED || code->operand2==1){
+			if(FSR[(code->operand1&0xff)+(FSR[BSR]<<8)] > FSR[WREG])
 				code->absoluteAddress+=2;
 			else
 				code->absoluteAddress++;
@@ -77,5 +73,6 @@ if(code->operand3 == -1){
 }
 else
 	Throw(INVALID_OP3);
+	
 return code->absoluteAddress;
 }

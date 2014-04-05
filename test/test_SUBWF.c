@@ -614,7 +614,7 @@ void test_subwf_should_save_answer_in_BANKED(){
 	TEST_ASSERT_EQUAL_HEX16(0x103,absoluteCheck);
 }
 
-void test_subwf_should_auto_switch_to_banked_mode(){
+void test_subwf_should_mask_bank(){
 
 	Instruction instruction = {
 								.mnemonic = SUBWF,
@@ -631,11 +631,11 @@ void test_subwf_should_auto_switch_to_banked_mode(){
 	int absoluteCheck;
 	//Test with first set of value
 	FSR[BSR] = 0x02;
-	FSR[0x200] = 0x08;
+	FSR[0x00] = 0x08;
 	FSR[WREG] = 0x07;
 	
 	absoluteCheck =subwf(&code);
-	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x200]);
+	TEST_ASSERT_EQUAL_HEX8(0x01,FSR[0x00]);
 	TEST_ASSERT_EQUAL_HEX16(0x101,absoluteCheck);
 }
 
